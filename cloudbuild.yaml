@@ -12,15 +12,6 @@ steps:
   # Push the container image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', '${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${COMMIT_SHA}']
-  # Generate SBOM for the image
-  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
-    entrypoint: bash
-    args:
-    - -c
-    - |
-      set -ex
-      gcloud artifacts sbom export \
-        --uri=${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${COMMIT_SHA}
 images:
 - ${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${COMMIT_SHA}
 options:
