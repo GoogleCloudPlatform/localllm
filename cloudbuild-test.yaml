@@ -1,0 +1,13 @@
+substitutions:
+  _GCR_LOCATION: us-central1-docker.pkg.dev
+  _IMAGE_NAME: localllm/localllm-cw
+steps:
+  # Build and tag using commit sha
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '.', '-t', '${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${COMMIT_SHA}', '-f', 'Dockerfile']
+    dir: '.'
+  - name: '${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${COMMIT_SHA}'
+    entrypoint: python
+    args: ["/workspace/image_tests.py"]
+options:
+  machineType: E2_HIGHCPU_32
