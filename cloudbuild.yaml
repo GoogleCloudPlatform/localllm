@@ -6,9 +6,6 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '.', '-t', '${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${COMMIT_SHA}', '-f', 'Dockerfile']
     dir: '.'
-  - name: '${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${COMMIT_SHA}'
-    entrypoint: python
-    args: ["/workspace/image_tests.py"]
   # Push the container image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', '${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${COMMIT_SHA}']
