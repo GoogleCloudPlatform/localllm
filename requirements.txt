@@ -1,0 +1,2 @@
+openai
+llama-cpp-python[server]
