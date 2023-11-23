@@ -65,3 +65,6 @@ https://github.com/abetlen/llama-cpp-python/issues/254
 INFO     image_tests:image_tests.py:27 warning: failed to mlock 92168192-byte buffer (after previously locking 0 bytes): Cannot allocate memory
 INFO     image_tests:image_tests.py:27 Try increasing RLIMIT_MLOCK ('ulimit -l' as root).
 ```
+
+3. The base image has 176 vulnerabilities :( Running `apt full-upgrade` removed 15 only 🙃
+
