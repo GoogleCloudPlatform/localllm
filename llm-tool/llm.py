@@ -5,17 +5,20 @@ import click
 
 import modelfiles
 import modelserving
+import modeldownload
 
 
 @click.group()
 def cli():
+    """Download and run local LLMs"""
     if not modelfiles.dir_exists():
         click.echo(f"Model directory {modelfiles.MODEL_DIR} does not exist. Please create it.")
-        exit()
+        exit(1)
 
 
 @cli.group()
 def models():
+    """Interact with models on 🤗 and on disk"""
     pass
 
 
@@ -28,8 +31,18 @@ def list():
 
 
 @models.command()
-def download():
-    click.echo("DOWNLOAD")
+@click.argument("repo_id")
+@click.option("--filename", default="",
+              help="The specific model file to download. Will assume 4 bit medium model if not provided")
+def download(repo_id, filename):
+    """Download model from REPO_ID at 🤗"""
+    filename = modeldownload.default_filename(repo_id) if not filename else filename
+    if not filename:
+        click.echo(f"Unable to determine filename to use for {repo_id}.")
+        exit(1)
+    click.echo(f"Downloading {filename} from {repo_id}")
+    path = modeldownload.download(repo_id, filename)
+    click.echo(f"Downloaded to {path}")
 
 
 @models.command()

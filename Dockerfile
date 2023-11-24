@@ -3,6 +3,11 @@ FROM us-central1-docker.pkg.dev/cloud-workstations-images/predefined/code-oss:la
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
+COPY llm-tool llm-tool
+RUN cd llm-tool && pip install .
+
+# hoisted on my petard (not actually using this dir now but still checking for it...)
 RUN mkdir /models
-RUN cd /models && wget https://huggingface.co/TheBloke/Llama-2-13B-Ensemble-v5-GGUF/resolve/main/llama-2-13b-ensemble-v5.Q4_K_M.gguf
-RUN cd /models && wget https://huggingface.co/TheBloke/openinstruct-mistral-7B-GGUF/resolve/main/openinstruct-mistral-7b.Q4_K_M.gguf
+
+RUN llm models download TheBloke/Llama-2-13B-Ensemble-v5-GGUF
+RUN llm models download TheBloke/openinstruct-mistral-7B-GGUF
