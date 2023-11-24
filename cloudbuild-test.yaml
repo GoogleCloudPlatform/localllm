@@ -2,10 +2,18 @@ substitutions:
   _GCR_LOCATION: us-central1-docker.pkg.dev
   _IMAGE_NAME: localllm/localllm-cw
 steps:
+  - name: python:3.10
+    script: |
+      set -xe
+
+      cd /workspace/llm-tool
+      python3 -m pip install .
+      python3 -m unittest
   # Build and tag using commit sha
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '.', '-t', '${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${COMMIT_SHA}', '-f', 'Dockerfile']
     dir: '.'
+  # Run tests on the image itself
   - name: '${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${COMMIT_SHA}'
     entrypoint: python
     args: ["/workspace/image_tests.py"]
