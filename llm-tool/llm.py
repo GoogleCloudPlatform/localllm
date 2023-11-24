@@ -8,26 +8,26 @@ import modelserving
 import modeldownload
 
 
+MODEL_STR = "\t{}:{}"
+
+
 @click.group()
 def cli():
     """Download and run local LLMs"""
-    if not modelfiles.dir_exists():
-        click.echo(f"Model directory {modelfiles.MODEL_DIR} does not exist. Please create it.")
-        exit(1)
 
 
 @cli.group()
 def models():
     """Interact with models on 🤗 and on disk"""
-    pass
 
 
 @models.command()
 def list():
-    m = modelfiles.list()
+    """List the locally cached models"""
+    m = modelfiles.list_models()
     click.echo(f"Models installed to {modelfiles.MODEL_DIR}...")
     for mm in m:
-        click.echo(f"\t{mm}")
+        click.echo(MODEL_STR.format(mm[0], mm[1]))
 
 
 @models.command()
@@ -57,7 +57,7 @@ def remove():
 
 @cli.group()
 def serving():
-    pass
+    """Serve models locally"""
 
 
 @serving.command()
@@ -72,10 +72,12 @@ def stop():
 
 @serving.command()
 def status():
-    m = modelserving.running_models(modelfiles.list())
+    """Return all the cached models currently running via llama_cpp.server
+    """
+    m = modelserving.running_models()
     if len(m) > 0:
         click.echo(f"Models in {modelfiles.MODEL_DIR} currently running...")
         for mm in m:
-            click.echo(f"\t{mm}")
+            click.echo(MODEL_STR.format(mm[0], mm[1]))
     else:
         click.echo("No models currently running.")

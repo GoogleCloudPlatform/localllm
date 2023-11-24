@@ -13,9 +13,14 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '.', '-t', '${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${COMMIT_SHA}', '-f', 'Dockerfile']
     dir: '.'
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${COMMIT_SHA}']
   # Run tests on the image itself
   - name: '${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${COMMIT_SHA}'
-    entrypoint: python
-    args: ["/workspace/image_tests.py"]
+    script: |
+      set -xe
+      mkdir -p /builder/home/.cache/huggingface
+      mv /root/.cache/huggingface/* /builder/home/.cache/huggingface
+      python /workspace/image_tests.py
 options:
   machineType: E2_HIGHCPU_32

@@ -5,7 +5,8 @@ server. Uses:
 * Quantized models from 🤗
 * [llama-cpp-python's webserver](https://github.com/abetlen/llama-cpp-python#web-server)
 
-Assumes that models are downloaded to `/models` and only supports `.gguf` files.
+Assumes that models are downloaded to `~/.cache/huggingface/hub/` (the default cache path
+used by https://github.com/huggingface/huggingface_hub) and only supports `.gguf` files.
 
 ## Install
 

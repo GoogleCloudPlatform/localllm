@@ -3,6 +3,7 @@
 import atexit
 import logging
 import openai
+import os
 import shlex
 import subprocess
 import sys
@@ -12,8 +13,9 @@ import unittest
 
 HOST="0.0.0.0"
 PORT=8000
-LLAMA_MODEL= "/models/llama-2-13b-ensemble-v5.Q4_K_M.gguf"
-MISTRAL_MODEL= "/models/openinstruct-mistral-7b.Q4_K_M.gguf"
+LLAMA_MODEL="~/.cache/huggingface/hub/models--TheBloke--Llama-2-13B-Ensemble-v5-GGUF/snapshots/bf8533401b9eb46855690fb06920e1e5ddf2f7e2/llama-2-13b-ensemble-v5.Q4_K_M.gguf"
+MISTRAL_MODEL="~/.cache/huggingface/hub/models--TheBloke--openinstruct-mistral-7B-GGUF/snapshots/0eda7ce8a5951a2839c32f0bf074eb21dd28ecd8/openinstruct-mistral-7b.Q4_K_M.gguf"
+
 COMMAND="python3 -m llama_cpp.server --model {} --host {} --port {}"
 
 
@@ -22,26 +24,32 @@ def wait_for_llm(p):
         if p.poll() != None:
             return False
         output = p.stdout.readline().decode("utf-8").rstrip()
+        if output:
+            print(output)
         if "Uvicorn running on" in output:
             return True
 
 
 class TestLLMs(unittest.TestCase):
     def test_llama(self):
-        self._test_llm(LLAMA_MODEL)
+        response = self._test_llm(LLAMA_MODEL)
+        self.assertNotEqual("", response)
 
     def test_mistral(self):
-        self._test_llm(MISTRAL_MODEL)
+        # The mistral model seems to sometimes return empty content for some reason
+        _ = self._test_llm(MISTRAL_MODEL)
 
     def _test_llm(self, model):
+        command = shlex.split(COMMAND.format(os.path.expanduser(model), HOST, PORT))
         with subprocess.Popen(
-            shlex.split(COMMAND.format(model, HOST, PORT)),
+            command,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT) as p:
 
             # ensure the process is cleaned up even if interrupted
             atexit.register(lambda: p.kill())
-            self.assertTrue(wait_for_llm(p))
+            if not wait_for_llm(p):
+                self.fail(f"Failed to run {' '.join(command)}")
 
             client = openai.OpenAI(
                 api_key="foo",
@@ -58,8 +66,7 @@ class TestLLMs(unittest.TestCase):
             p.kill()
             self.assertNotEqual(0, len(chat_completion.choices))
             print(chat_completion.choices[0].message.content)
-            # TODO: the mistral model did sometimes return empty content, this might have false negatives
-            self.assertNotEqual("", chat_completion.choices[0].message.content)
+            return chat_completion.choices[0].message.content
 
 
 if __name__ == "__main__":

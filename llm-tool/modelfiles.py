@@ -3,23 +3,21 @@
 import os
 
 
-MODEL_DIR = "/models"
-SUPPORTED_EXTS = [".gguf"]
+MODEL_DIR = "~/.cache/huggingface/hub/"
+DEFAULT_FILE_EXT = "gguf"
 
 
-def dir_exists():
-    """
-    Returns true if the model directory exists
-    """
-    return os.path.isdir(MODEL_DIR)
-
-
-
-def list():
+def list_models():
     """
     List models downloaded to disk
     """
-    return filter_models(os.listdir(MODEL_DIR))
+    model_dir = os.path.expanduser(MODEL_DIR)
+    if os.path.isdir(model_dir):
+        models = []
+        for root, _, files in os.walk(model_dir):
+            models.extend(filter_models([os.sep.join([root, f]) for f in files]))
+        return models
+    return []
 
 
 def filter_models(files):
@@ -28,9 +26,21 @@ def filter_models(files):
     """
     models = []
     for file in files:
-        parts = os.path.splitext(file)
-        if len(parts) != 2:
-            continue
-        if parts[1] in SUPPORTED_EXTS:
-            models.append(file)
+        if file.endswith(f".{DEFAULT_FILE_EXT}"):
+            repo, model = model_from_path(file)
+            if repo != "" and model != "":
+                models.append((repo, model))
     return models
+
+
+def model_from_path(path):
+    """
+    Returns the 🤗 model repo based on the cached path
+    """
+    path_parts = path.split(os.sep)
+    for p in path_parts:
+        parts = p.split("--")
+        if len(parts) != 3 or parts[0] != "models":
+            continue
+        return "/".join(parts[1:]), path_parts[-1]
+    return "", ""

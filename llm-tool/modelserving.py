@@ -4,23 +4,22 @@ Uses https://github.com/abetlen/llama-cpp-python#web-server to serve models
 """
 import psutil
 
+import modelfiles
 
-def running_models(models):
+
+def running_models():
     """
     Returns a list of models that appear to be currently running
     """
     procs = [proc.cmdline() for proc in psutil.process_iter([])]
-    running = []
-    for model in models:
-        if is_running(model, procs):
-            running.append(model)
-    return running
+    return filter_running_models(procs)
 
 
-def is_running(model, processes):
+def filter_running_models(processes):
     """
-    Returns true if a python process is running the model
+    Returns the list of running models
     """
+    models = []
     for p in processes:
         if len(p) == 0:
             continue
@@ -29,6 +28,5 @@ def is_running(model, processes):
                 if arg == "--model":
                     if len(p) < i+2:
                         continue
-                    if model in p[i+1]:
-                        return True
-    return False
+                    models.append(modelfiles.model_from_path(p[i+1]))
+    return models

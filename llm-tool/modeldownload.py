@@ -2,10 +2,11 @@
 """
 import huggingface_hub
 
+import modelfiles
+
 
 # Defaulting to 4 bit medium quantization
 DEFAULT_QUANT = "Q4_K_M"
-DEFAULT_FILE_EXT = "gguf"
 
 
 def default_filename(repo_id):
@@ -18,10 +19,10 @@ def default_filename(repo_id):
     if len(parts) != 2:
         return ""
     model_parts = parts[1].lower().split("-")
-    if model_parts[-1] != DEFAULT_FILE_EXT:
+    if model_parts[-1] != modelfiles.DEFAULT_FILE_EXT:
         return ""
     model = "-".join(model_parts[:-1])
-    return ".".join([model, DEFAULT_QUANT, DEFAULT_FILE_EXT])
+    return ".".join([model, DEFAULT_QUANT, modelfiles.DEFAULT_FILE_EXT])
 
 
 def download(path, filename):
