@@ -7,6 +7,14 @@ MODEL_DIR = "/models"
 SUPPORTED_EXTS = [".gguf"]
 
 
+def dir_exists():
+    """
+    Returns true if the model directory exists
+    """
+    return os.path.isdir(MODEL_DIR)
+
+
+
 def list():
     """
     List models downloaded to disk

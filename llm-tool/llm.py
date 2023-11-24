@@ -9,7 +9,9 @@ import modelserving
 
 @click.group()
 def cli():
-    pass
+    if not modelfiles.dir_exists():
+        click.echo(f"Model directory {modelfiles.MODEL_DIR} does not exist. Please create it.")
+        exit()
 
 
 @cli.group()

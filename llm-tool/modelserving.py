@@ -6,6 +6,9 @@ import psutil
 
 
 def running_models(models):
+    """
+    Returns a list of models that appear to be currently running
+    """
     procs = [proc.cmdline() for proc in psutil.process_iter([])]
     running = []
     for model in models:
@@ -15,6 +18,9 @@ def running_models(models):
 
 
 def is_running(model, processes):
+    """
+    Returns true if a python process is running the model
+    """
     for p in processes:
         if len(p) == 0:
             continue
