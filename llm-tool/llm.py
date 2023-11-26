@@ -46,11 +46,6 @@ def download(repo_id, filename):
 
 
 @models.command()
-def update():
-    click.echo("UPDATE")
-
-
-@models.command()
 def remove():
     click.echo("REMOVE")
 

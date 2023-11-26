@@ -22,7 +22,7 @@ pip install .
 llm models list
 ```
 
-### Download a model from 🤗
+### Download (or update) a model from 🤗
 
 If you're using models from TheBloke we can make some assumptions about repo
 structure:
@@ -37,8 +37,6 @@ doesn't follow the same file naming, you can specify the file explicitly:
 ```bash
 llm models download TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
 ```
-
-### Update a model from 🤗
 
 ### Remove a model
 
