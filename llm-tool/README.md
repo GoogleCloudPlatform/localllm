@@ -58,10 +58,10 @@ llm models rm TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensem
 
 ### Stop serving a model
 
-### List model statuses
+### List running models
 
 ```bash
-llm serving status
+llm serving ps
 ```
 
 ## Develop

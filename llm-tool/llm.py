@@ -75,7 +75,7 @@ def stop():
 
 
 @serving.command()
-def status():
+def ps():
     """Return all the cached models currently running via llama_cpp.server
     """
     m = modelserving.running_models()
