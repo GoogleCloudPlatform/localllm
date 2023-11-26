@@ -16,8 +16,8 @@ pip3 install -r requirements.txt
 pip3 install ./llm-tool/.
 
 # Download the models
-llm models download TheBloke/Llama-2-13B-Ensemble-v5-GGUF
-llm models download TheBloke/openinstruct-mistral-7B-GGUF
+llm models pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF
+llm models pull TheBloke/openinstruct-mistral-7B-GGUF
 
 # Host the models (may need to change the snapshot)
 python3 -m llama_cpp.server --model ~/.cache/huggingface/hub/models--TheBloke--Llama-2-13B-Ensemble-v5-GGUF/snapshots/bf8533401b9eb46855690fb06920e1e5ddf2f7e2/llama-2-13b-ensemble-v5.Q4_K_M.gguf --host 0.0.0.0 --port 8000

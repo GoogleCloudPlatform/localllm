@@ -34,15 +34,15 @@ def list():
 @click.argument("repo_id")
 @click.option("--filename", default="",
               help="The specific model file to download. Will assume 4 bit medium model if not provided")
-def download(repo_id, filename):
+def pull(repo_id, filename):
     """Download model from REPO_ID at 🤗"""
     filename = modeldownload.default_filename(repo_id) if not filename else filename
     if not filename:
         click.echo(f"Unable to determine filename to use for {repo_id}.")
         exit(1)
-    click.echo(f"Downloading {filename} from {repo_id}")
+    click.echo(f"Pulling {filename} from {repo_id}")
     path = modeldownload.download(repo_id, filename)
-    click.echo(f"Downloaded to {path}")
+    click.echo(f"Pulling to {path}")
 
 
 @models.command()

@@ -28,14 +28,14 @@ If you're using models from TheBloke we can make some assumptions about repo
 structure:
 
 ```bash
-llm models download TheBloke/Llama-2-13B-Ensemble-v5-GGUF
+llm models pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF
 ```
 
 If you want a different specific file in the repo or the repo you are using
 doesn't follow the same file naming, you can specify the file explicitly:
 
 ```bash
-llm models download TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
+llm models pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
 ```
 
 ### Remove a model
