@@ -1,6 +1,8 @@
 """Downloads models from 🤗
 """
 import huggingface_hub
+import os
+import shutil
 
 import modelfiles
 
@@ -25,12 +27,32 @@ def default_filename(repo_id):
     return ".".join([model, DEFAULT_QUANT, modelfiles.DEFAULT_FILE_EXT])
 
 
-def download(path, filename):
+def download(repo_id, filename):
     """Downloads file from the path at 🤗
 
     Uses huggingface_hub library to create a cache.
     """
     return huggingface_hub.hf_hub_download(
-        repo_id=path,
+        repo_id=repo_id,
         filename=filename,
     )
+
+
+def remove(repo_id, filename):
+    """Removes models from disk
+
+    Either removes entire repo_id or just filename within that repo.
+    Does nothing if the file or repo does not exist on disk.
+    """
+    path = ""
+    if filename:
+        model_path = modelfiles.path_from_repo(repo_id)
+        repo_files = modelfiles.get_all_files(model_path)
+        path = modelfiles.path_from_model(repo_files, filename)
+        if path:
+            os.remove(path)
+    if not filename:
+        path = modelfiles.path_from_repo(repo_id)
+        if path:
+            shutil.rmtree(path)
+    return path

@@ -25,7 +25,7 @@ def models():
 def list():
     """List the locally cached models"""
     m = modelfiles.list_models()
-    click.echo(f"Models installed to {modelfiles.MODEL_DIR}...")
+    click.echo(f"Models installed to {modelfiles.get_model_dir()}...")
     for mm in m:
         click.echo(MODEL_STR.format(mm[0], mm[1]))
 
@@ -46,8 +46,17 @@ def download(repo_id, filename):
 
 
 @models.command()
-def remove():
-    click.echo("REMOVE")
+@click.argument("repo_id")
+@click.option("--filename", default="",
+              help="The specific file to download. Will delete entire repo if not provided.")
+def rm(repo_id, filename):
+    """Delete REPO_ID from disk or a specific file within a repo"""
+    click.echo(f"Removing {filename} from {repo_id}")
+    path = modeldownload.remove(repo_id, filename)
+    if path:
+        click.echo(f"Removed {path}")
+    else:
+        click.echo("Nothing to remove")
 
 
 @cli.group()
@@ -71,7 +80,7 @@ def status():
     """
     m = modelserving.running_models()
     if len(m) > 0:
-        click.echo(f"Models in {modelfiles.MODEL_DIR} currently running...")
+        click.echo(f"Models in {modelfiles.get_model_dir()} currently running...")
         for mm in m:
             click.echo(MODEL_STR.format(mm[0], mm[1]))
     else:

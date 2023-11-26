@@ -40,6 +40,18 @@ llm models download TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b
 
 ### Remove a model
 
+To remove a previously downloaded repo:
+
+```bash
+llm models rm TheBloke/Llama-2-13B-Ensemble-v5-GGUF
+```
+
+To remove a specific file downloaded from a repo:
+
+```bash
+llm models rm TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
+```
+
 ## Model serving
 
 ### Start serving a model
