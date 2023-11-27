@@ -5,6 +5,16 @@ Run LLMs locally on Cloud Workstations. Uses:
 * Quantized models from 🤗
 * [llama-cpp-python's webserver](https://github.com/abetlen/llama-cpp-python#web-server)
 
+## Running cloud workstation
+
+To use the image built from this repo with Google Cloud Workstations, create a new
+Cloud Workstation configuration with:
+* Using the image `us-central1-docker.pkg.dev/catw-farm/localllm/localllm-cw@sha256:7018468633f329c26971f70108af0daaec856f389a9dc69458adecf5e63aa470`
+* e2-standard-32 (32 vCPU, 16 core, 128 GB memory)
+
+The image is not yet publicly accessible so you will need to use a service account
+that has access to it.
+
 ## Try it out
 
 ```bash
@@ -57,12 +67,6 @@ llm rm TheBloke/Llama-2-13B-Ensemble-v5-GGUF
 # Remove a specific model
 llm rm TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
 ```
-
-## Running cloud workstation
-
-Currently using:
-* e2-standard-32 (32 vCPU, 16 core, 128 GB memory)
-* `us-central1-docker.pkg.dev/cloud-workstations-images/predefined/code-oss:latest`
 
 ## Image publishing
 
