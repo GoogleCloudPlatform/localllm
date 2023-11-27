@@ -8,20 +8,15 @@ import modelserving
 import modeldownload
 
 
-MODEL_STR = "\t{}:{}"
+MODEL_STR = "\t{} {}"
 
 
 @click.group()
 def cli():
-    """Download and run local LLMs"""
+    """Download and run local LLMs from 🤗"""
 
 
-@cli.group()
-def models():
-    """Interact with models on 🤗 and on disk"""
-
-
-@models.command()
+@cli.command()
 def list():
     """List the locally cached models"""
     m = modelfiles.list_models()
@@ -37,7 +32,7 @@ def _pull(repo_id, filename):
     return path
 
 
-@models.command()
+@cli.command()
 @click.argument("repo_id")
 @click.option("--filename", default="",
               help="The specific model file to download. Will assume 4 bit medium model if not provided")
@@ -50,7 +45,7 @@ def pull(repo_id, filename):
     _pull(repo_id, filename)
 
 
-@models.command()
+@cli.command()
 @click.argument("repo_id")
 @click.option("--filename", default="",
               help="The specific file to download. Will delete entire repo if not provided.")
@@ -64,12 +59,7 @@ def rm(repo_id, filename):
         click.echo("Nothing to remove")
 
 
-@cli.group()
-def serving():
-    """Serve models locally"""
-
-
-@serving.command()
+@cli.command()
 @click.argument("repo_id")
 @click.argument("host")
 @click.argument("port")
@@ -88,7 +78,7 @@ def run(repo_id, host, port, filename, verbose):
         click.echo(f"Running {path} at {host}:{port}")
 
 
-@serving.command()
+@cli.command()
 @click.argument("repo_id")
 @click.option("--filename", default="", help="The specific file to run.")
 def kill(repo_id, filename):
@@ -97,10 +87,12 @@ def kill(repo_id, filename):
     for m_repo_id, m_filename, m_pid in m:
         if m_repo_id == repo_id:
             if not filename or m_filename == filename:
+                click.echo(f"Killing {m_repo_id}:{m_filename} at {m_pid}")
                 psutil.Process(m_pid).kill()
 
 
-@serving.command()
+
+@cli.command()
 def ps():
     """Return all the cached models currently running via llama_cpp.server
     """

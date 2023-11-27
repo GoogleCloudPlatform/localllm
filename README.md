@@ -13,7 +13,7 @@ pip3 install openai
 pip3 install ./llm-tool/.
 
 # Download and run a model
-llm serving run TheBloke/Llama-2-13B-Ensemble-v5-GGUF 0.0.0.0 8000
+llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF 0.0.0.0 8000
 
 # Try out a queries
 ./querylocal.py

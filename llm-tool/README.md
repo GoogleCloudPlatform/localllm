@@ -17,62 +17,58 @@ the model with 4 bit medium quantization, or you can specify a filename explicit
 pip install .
 ```
 
-## Model management
-
-### List downloaded models
+## List downloaded models
 
 ```bash
-llm models list
+llm list
 ```
 
-### Download (or update) a model from 🤗
+## Download (or update) a model from 🤗
 
 ```bash
 # Download the default model from the repo
-llm models pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF
+llm pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF
 
 # Download a specific model from the repo
-llm models pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
+llm pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
 ```
 
-### Remove a model
+## Remove a model
 
 ```bash
 # Remove all models downloaded from the repo
-llm models rm TheBloke/Llama-2-13B-Ensemble-v5-GGUF
+llm rm TheBloke/Llama-2-13B-Ensemble-v5-GGUF
 
 # Remove a specific model
-llm models rm TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
+llm rm TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
 ```
 
-## Model serving
-
-### Start serving a model
+## Start serving a model
 
 Will download if not already present.
 
 ```bash
 # Start serving the default model from the repo
-llm serving run TheBloke/Llama-2-13B-Ensemble-v5-GGUF
+llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF
 
 # Start serving a specific model
-llm serving run TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
+llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
 ```
 
-### Stop serving a model
+## Stop serving a model
 
 ```bash
 # Stop serving all models from the repo
-llm serving kill TheBloke/Llama-2-13B-Ensemble-v5-GGUF
+llm kill TheBloke/Llama-2-13B-Ensemble-v5-GGUF
 
 # Stop serving a specific model
-llm serving kill TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
+llm kill TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
 ```
 
-### List running models
+## List running models
 
 ```bash
-llm serving ps
+llm ps
 ```
 
 ## Develop

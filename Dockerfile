@@ -6,8 +6,8 @@ RUN pip install -r requirements.txt
 COPY llm-tool llm-tool
 RUN cd llm-tool && pip install .
 
-RUN llm models pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF
-RUN llm models pull TheBloke/openinstruct-mistral-7B-GGUF
+RUN llm pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF
+RUN llm pull TheBloke/openinstruct-mistral-7B-GGUF
 
 # Startup script will move downloaded models from root home cache to user's cache
 COPY workstation-startup.d/* /etc/workstation-startup.d/
