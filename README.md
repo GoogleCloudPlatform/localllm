@@ -19,10 +19,44 @@ llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF 0.0.0.0 8000
 ./querylocal.py
 ```
 
-You can interact with the Open API interface (which will also all you to query the models)
-by visiting the `/docs` extenstion, e.g. for the above:
+You can interact with the Open API interface by visiting the `/docs` extenstion, e.g. for the above: http://localhost:8000/docs
 
-* http://localhost:8000/docs
+## llm commands
+
+Assumes that models are downloaded to `~/.cache/huggingface/hub/` (the default cache path
+used by https://github.com/huggingface/huggingface_hub) and only supports `.gguf` files.
+
+If you're using models from TheBloke and you don't specify a filename, we'll attempt to use
+the model with 4 bit medium quantization, or you can specify a filename explicitly.
+
+
+```bash
+# List downloaded models
+llm list
+
+# List running models
+llm ps
+
+# Start serving the default model from the repo (download if not present)
+llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF 8000
+# Start serving a specific model (download if not present)
+llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf 8000
+
+# Stop serving all models from the repo
+llm kill TheBloke/Llama-2-13B-Ensemble-v5-GGUF
+# Stop serving a specific model
+llm kill TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
+
+# Download the default model from the repo
+llm pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF
+# Download a specific model from the repo
+llm pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
+
+# Remove all models downloaded from the repo
+llm rm TheBloke/Llama-2-13B-Ensemble-v5-GGUF
+# Remove a specific model
+llm rm TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
+```
 
 ## Running cloud workstation
 

@@ -1,7 +1,6 @@
 FROM us-central1-docker.pkg.dev/cloud-workstations-images/predefined/code-oss:latest
 
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install openai
 
 COPY llm-tool llm-tool
 RUN cd llm-tool && pip install .
