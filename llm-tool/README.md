@@ -49,10 +49,10 @@ Will download if not already present.
 
 ```bash
 # Start serving the default model from the repo
-llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF
+llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF 8000
 
 # Start serving a specific model
-llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
+llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf 8000
 ```
 
 ## Stop serving a model

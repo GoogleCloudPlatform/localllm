@@ -61,7 +61,7 @@ def rm(repo_id, filename):
 
 @cli.command()
 @click.argument("repo_id")
-@click.argument("host")
+@click.option("--host", default="0.0.0.0")
 @click.argument("port")
 @click.option("--filename", default="", help="The specific file to run.")
 @click.option('--verbose/--no-verbose', default=False)
