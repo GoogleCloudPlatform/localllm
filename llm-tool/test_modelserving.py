@@ -17,7 +17,7 @@ class TestServing(unittest.TestCase):
         ["/bin/bash", "--init-file", "/opt/code-oss/out/vs/workbench/contrib/terminal/browser/media/shellIntegration-bash.sh"],
     ]
 
-    def test_get_running_models(self):
+    def test_filter_running_models(self):
         models = modelserving.filter_running_models(self.procs)
         self.assertEqual(1, len(models))
         self.assertEqual("TheBloke/Llama-2-13B-Ensemble-v5-GGUF", models[0][0])

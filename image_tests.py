@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Test(s) to run from inside the built image
 """
 import atexit
@@ -13,10 +14,11 @@ import unittest
 
 HOST="0.0.0.0"
 PORT=8000
-LLAMA_MODEL="~/.cache/huggingface/hub/models--TheBloke--Llama-2-13B-Ensemble-v5-GGUF/snapshots/bf8533401b9eb46855690fb06920e1e5ddf2f7e2/llama-2-13b-ensemble-v5.Q4_K_M.gguf"
-MISTRAL_MODEL="~/.cache/huggingface/hub/models--TheBloke--openinstruct-mistral-7B-GGUF/snapshots/0eda7ce8a5951a2839c32f0bf074eb21dd28ecd8/openinstruct-mistral-7b.Q4_K_M.gguf"
+LLAMA_REPO="TheBloke/Llama-2-13B-Ensemble-v5-GGUF"
+MISTRAL_REPO="TheBloke/openinstruct-mistral-7B-GGUF"
 
-COMMAND="python3 -m llama_cpp.server --model {} --host {} --port {}"
+RUN_COMMAND="llm run {} {} --verbose"
+KILL_COMMAND="llm kill {}"
 
 
 def wait_for_llm(p):
@@ -30,24 +32,29 @@ def wait_for_llm(p):
             return True
 
 
+def kill_llm(p, model):
+    p.kill()
+    subprocess.check_call(shlex.split(KILL_COMMAND.format(model)))
+
+
 class TestLLMs(unittest.TestCase):
     def test_llama(self):
-        response = self._test_llm(LLAMA_MODEL)
+        response = self._test_llm(LLAMA_REPO)
         self.assertNotEqual("", response)
 
     def test_mistral(self):
         # The mistral model seems to sometimes return empty content for some reason
-        _ = self._test_llm(MISTRAL_MODEL)
+        _ = self._test_llm(MISTRAL_REPO)
 
     def _test_llm(self, model):
-        command = shlex.split(COMMAND.format(os.path.expanduser(model), HOST, PORT))
+        command = shlex.split(RUN_COMMAND.format(model, PORT))
         with subprocess.Popen(
             command,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT) as p:
 
             # ensure the process is cleaned up even if interrupted
-            atexit.register(lambda: p.kill())
+            atexit.register(lambda: kill_llm(p, model))
             if not wait_for_llm(p):
                 self.fail(f"Failed to run {' '.join(command)}")
 
@@ -63,7 +70,7 @@ class TestLLMs(unittest.TestCase):
                 model="",
             )
 
-            p.kill()
+            kill_llm(p, model)
             self.assertNotEqual(0, len(chat_completion.choices))
             print(chat_completion.choices[0].message.content)
             return chat_completion.choices[0].message.content

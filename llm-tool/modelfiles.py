@@ -67,14 +67,22 @@ def get_all_files(model_dir):
     return all_files
 
 
-def path_from_model(repo_files, model):
+def path_from_model(repo_id, model):
     """
     Returns the path the file in the repo is cached at.
 
     If the file isn't cached, nothing is returned.
     If multiple copies are present, the first one is returned.
     """
+    model_path = path_from_repo(repo_id)
+    repo_files = get_all_files(model_path)
+    return find_model(repo_files, model)
+
+
+def find_model(repo_files, model):
+    """
+    Returns the path in repo files that appears to be the model.
+    """
     for file in repo_files:
         if file.endswith(model):
             return file
-    return ""

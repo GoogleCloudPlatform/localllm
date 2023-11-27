@@ -46,8 +46,6 @@ def remove(repo_id, filename):
     """
     path = ""
     if filename:
-        model_path = modelfiles.path_from_repo(repo_id)
-        repo_files = modelfiles.get_all_files(model_path)
         path = modelfiles.path_from_model(repo_files, filename)
         if path:
             os.remove(path)

@@ -40,9 +40,9 @@ class TestModels(unittest.TestCase):
         path = modelfiles.path_from_repo("SomeRepo")
         self.assertEqual("", path)
 
-    def test_path_from_model(self):
+    def test_find_model(self):
         model = "smartyplats-7b-v2.Q4_K_M.gguf"
-        path = modelfiles.path_from_model(self.files, model)
+        path = modelfiles.find_model(self.files, model)
         self.assertEqual(
             "/home/user/.cache/huggingface/hub/models--TheBloke--smartyplats-7B-v2-GGUF/snapshots/b5c676eb555d1e44b5381969c7901d31add6673d/smartyplats-7b-v2.Q4_K_M.gguf",
             path)

@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-""" Just a script to try hitting two local LLM endpoints
+""" Just a script to try hitting local LLM endpoints
 """
 
 from openai import OpenAI
 URLS = [
     "http://localhost:8000/v1",
-    "http://localhost:8001/v1",
 ]
 for url in URLS:
     print(f"{url:*^50}")
