@@ -14,8 +14,8 @@
 
 substitutions:
   _GCR_LOCATION: us-central1-docker.pkg.dev
-  _IMAGE_NAME: localllm/localllm-cw
-  _IMAGE_TAG: ${COMMIT_SHA}
+  _IMAGE_NAME: localllm/localllm
+  _IMAGE_TAG: ${COMMIT_SHA:-latest}
 steps:
   # Build and tag using commit sha
   - name: "gcr.io/cloud-builders/docker"
@@ -37,3 +37,4 @@ images:
 options:
   requestedVerifyOption: VERIFIED
   machineType: E2_HIGHCPU_32
+  dynamicSubstitutions: true
