@@ -43,13 +43,6 @@ gcloud services enable \
 gcloud artifacts repositories create localllm \
   --location=us-central1 \
   --repository-format=docker
-
-# Grant access to the default Cloud Workstation Service Account
-gcloud artifacts repositories add-iam-policy-binding \
-  localllm \
-  --location=us-central1 \
-  --member=serviceAccount:service-$PROJECT_NUM@gcp-sa-workstationsvm.iam.gserviceaccount.com \
-  --role=roles/artifactregistry.reader
 ```
 
 Next, submit a build of the Dockerfile, which will also push the image to Artifact Registry.
@@ -87,6 +80,13 @@ gcloud workstations create locallm-workstation \
   --cluster=$CLUSTER \
   --config=localllm-workstation \
   --region=us-central1
+
+# Grant access to the default Cloud Workstation Service Account
+gcloud artifacts repositories add-iam-policy-binding \
+  localllm \
+  --location=us-central1 \
+  --member=serviceAccount:service-$PROJECT_NUM@gcp-sa-workstationsvm.iam.gserviceaccount.com \
+  --role=roles/artifactregistry.reader
 
 # Start the workstation
 gcloud workstations start locallm-workstation \
