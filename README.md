@@ -64,7 +64,7 @@ The next step is to [create and launch a workstation](https://cloud.google.com/w
 using our custom image. We suggest using a machine type of e2-standard-32 (32 vCPU, 16 core and 128 GB memory).
 
 The following example uses `gcloud` to configure a cluster, configuration and workstation using our custom
-base image with `llm` installed. Feel free to replace `$CLUSTER` if you already have one, otherwise the command
+base image with `llm` installed. Replace `$CLUSTER` with your desired cluster name, and the command
 below will create a new one (which takes ~20 minutes).
 
 ```bash
