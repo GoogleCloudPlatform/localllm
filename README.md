@@ -16,10 +16,10 @@ pip3 install ./llm-tool/.
 llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF 8000
 
 # Try out a query
-./querylocal.py
+python3 querylocal.py
 ```
 
-You can interact with the Open API interface by visiting the `/docs` extenstion, e.g. for the above: http://localhost:8000/docs
+You can interact with the Open API interface by visiting the `/docs` extension, e.g. for the above: http://localhost:8000/docs
 
 ## Running on [Cloud Workstation](https://cloud.google.com/workstations)
 
@@ -104,7 +104,7 @@ gcloud workstations ssh locallm-workstation \
   --region=us-central1
 ```
 
-After serving a model (see `llm run` below, noting the `$PORT` used for serving), you can interact with 
+After serving a model (see `llm run` below, noting the `$PORT` used for serving), you can interact with
 the model by visiting the live OpenAPI documentation page. First, get the hostname of the workstation using:
 
 ```bash
