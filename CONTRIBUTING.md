@@ -30,3 +30,12 @@ Guidelines](https://opensource.google/conduct/).
 All submissions, including submissions by project members, require review. We
 use [GitHub pull requests](https://docs.github.com/articles/about-pull-requests)
 for this purpose.
+
+### Pull Request process
+
+Pull requests will be tested in GCB by executing [cloudbuild-test.yaml](./cloudbuild-test.yaml).
+After merge, [cloudbuild.yaml](cloudbuild.yaml) will build and publish the image to ensure that
+it works, but the image is not currently available publicly.
+
+**A user with permission must approve the GCB execution.** This is inconvenient but seems like a
+safer starting place vs. opening it up to anyone who executes a PR.

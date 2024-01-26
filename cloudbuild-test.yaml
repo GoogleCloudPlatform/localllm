@@ -14,7 +14,7 @@
 
 substitutions:
   _GCR_LOCATION: us-central1-docker.pkg.dev
-  _IMAGE_NAME: localllm/localllm-cw
+  _IMAGE_NAME: cw/localllm
   _IMAGE_TAG: ${COMMIT_SHA}
 steps:
   - name: python:3.10
@@ -36,8 +36,6 @@ steps:
         "Dockerfile",
       ]
     dir: "."
-  - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${_IMAGE_TAG}"]
   # Run tests on the image itself
   - name: "${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${_IMAGE_TAG}"
     script: |
