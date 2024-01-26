@@ -40,8 +40,8 @@ steps:
   - name: "${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${_IMAGE_TAG}"
     script: |
       set -xe
-      mkdir -p /builder/home/.cache/huggingface
-      mv /root/.cache/huggingface/* /builder/home/.cache/huggingface
+      llm pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF
+      llm pull TheBloke/openinstruct-mistral-7B-GGUF
       python /workspace/image_tests.py
 options:
   machineType: E2_HIGHCPU_32
