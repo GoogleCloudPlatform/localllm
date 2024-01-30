@@ -5,29 +5,12 @@ Run LLMs locally on Cloud Workstations. Uses:
 - Quantized models from 🤗
 - [llama-cpp-python's webserver][web-server]
 
-## Running locally
+In this guide:
 
-1. Install the tools.
-
-```shell
-# Install the tools
-pip3 install openai
-pip3 install ./llm-tool/.
-```
-
-1. Download and run a model.
-
-```shell
-llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF 8000
-```
-
-1. Try out a query. The default query is for a haiku about cats.
-
-```shell
-python3 querylocal.py
-```
-
-1. Interact with the Open API interface via the `/docs` extension. For the above, visit http://localhost:8000/docs.
+* [Running as a Cloud Workstation](#running-as-a-cloud-workstation)
+* [llm commands](#llm-commands)
+* [Running locally](#running-locally)
+* [LLM disclaimer](#llm-disclaimer)
 
 ## Running as a [Cloud Workstation][cw]
 
@@ -232,6 +215,30 @@ llm ps
    ```shell
    llm rm TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
    ```
+
+## Running locally
+
+1. Install the tools.
+
+```shell
+# Install the tools
+pip3 install openai
+pip3 install ./llm-tool/.
+```
+
+1. Download and run a model.
+
+```shell
+llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF 8000
+```
+
+1. Try out a query. The default query is for a haiku about cats.
+
+```shell
+python3 querylocal.py
+```
+
+1. Interact with the Open API interface via the `/docs` extension. For the above, visit http://localhost:8000/docs.
 
 ## LLM Disclaimer
 
