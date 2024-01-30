@@ -15,21 +15,21 @@ pip3 install openai
 pip3 install ./llm-tool/.
 ```
 
-2. Download and run a model.
+1. Download and run a model.
 
 ```shell
 llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF 8000
 ```
 
-3. Try out a query. The default query is for a haiku about cats.
+1. Try out a query. The default query is for a haiku about cats.
 
 ```shell
 python3 querylocal.py
 ```
 
-4. Interact with the Open API interface via the `/docs` extension. For the above, visit http://localhost:8000/docs. 
+1. Interact with the Open API interface via the `/docs` extension. For the above, visit http://localhost:8000/docs.
 
-## Running on [Cloud Workstation][cw]
+## Running as a [Cloud Workstation][cw]
 
 This repository includes a [Dockerfile](./Dockerfile) that can be used to create a [custom base image][cw-custom] 
 for a Cloud Workstation environment that includes the `llm` tool.
@@ -44,22 +44,23 @@ To get started, you'll need to have a [GCP Project][gcp] and have the `gcloud` C
    export PROJECT_NUM=<project-num>
    ```
    
-   2. Set other needed environment variables. You can modify the values.
+   1. Set other needed environment variables. You can modify the values.
    ```shell
    export REGION=us-central1
    export LOCALLLM_REGISTRY=localllm-registry
+   export LOCALLLM_IMAGE_NAME=localllm
    export LOCALLLM_CLUSTER=localllm-cluster
    export LOCALLLM_WORKSTATION=localllm-workstation
    export LOCALLLM_PORT=8000
    ```
 
-2. Set the default project.
+1. Set the default project.
 
 ```shell
 gcloud config set project $PROJECT_ID
 ```
 
-3. Enable needed services.
+1. Enable needed services.
 
 ```shell
 gcloud services enable \
@@ -71,7 +72,7 @@ gcloud services enable \
   artifactregistry.googleapis.com
 ```
 
-4. Create an Artifact Registry repository for docker images.
+1. Create an Artifact Registry repository for docker images.
 
 ```shell
 gcloud artifacts repositories create $LOCALLLM_REGISTRY \
@@ -79,21 +80,21 @@ gcloud artifacts repositories create $LOCALLLM_REGISTRY \
   --repository-format=docker
 ```
 
-5. Build and push the image to Artifact Registry using Cloud Build. Details are in [cloudbuild.yaml](cloudbuild.yaml).
-   The published image is `us-central1-docker.pkg.dev/$PROJECT_ID/localllm/localllm`.
+1. Build and push the image to Artifact Registry using Cloud Build. Details are in [cloudbuild.yaml](cloudbuild.yaml).
 
 ```shell
-gcloud builds submit .
+gcloud builds submit . \
+    --substitutions=_IMAGE_REGISTRY=$LOCALLLM_REGISTRY,_IMAGE_NAME=$LOCALLLM_IMAGE_NAME
 ```
 
-7. Configure a Cloud Workstation cluster.
+1. Configure a Cloud Workstation cluster.
 
 ```shell
 gcloud workstations clusters create $LOCALLLM_CLUSTER \
   --region=$REGION
 ```
 
-8. Create a Cloud Workstation configuration. We suggest using a machine type of e2-standard-32 which has 32 vCPU, 16 
+1. Create a Cloud Workstation configuration. We suggest using a machine type of e2-standard-32 which has 32 vCPU, 16
    core and 128 GB memory.
 
 ```shell
@@ -101,10 +102,10 @@ gcloud workstations configs create $LOCALLLM_WORKSTATION \
 --region=$REGION \
 --cluster=$LOCALLLM_CLUSTER \
 --machine-type=e2-standard-32 \
---container-custom-image=us-central1-docker.pkg.dev/$PROJECT_ID/localllm/localllm
+--container-custom-image=us-central1-docker.pkg.dev/$PROJECT_ID/$LOCALLLM_REGISTRY/$LOCALLLM_IMAGE_NAME
 ```
 
-9. Create a Cloud Workstation.
+1. Create a Cloud Workstation.
 
 ```shell
 gcloud workstations create $LOCALLLM_WORKSTATION \
@@ -113,7 +114,7 @@ gcloud workstations create $LOCALLLM_WORKSTATION \
 --region=$REGION
 ```
 
-10. Grant access to the default Cloud Workstation service account.
+1. Grant access to the default Cloud Workstation service account.
 
 ```shell
 gcloud artifacts repositories add-iam-policy-binding $LOCALLLM_REGISTRY \
@@ -122,7 +123,7 @@ gcloud artifacts repositories add-iam-policy-binding $LOCALLLM_REGISTRY \
   --role=roles/artifactregistry.reader
 ```
 
-11. Start the workstation.
+1. Start the workstation.
 
 ```shell
 gcloud workstations start $LOCALLLM_WORKSTATION \
@@ -131,7 +132,7 @@ gcloud workstations start $LOCALLLM_WORKSTATION \
   --region=$REGION
 ```
 
-12. Connect to the workstation using ssh. Alternatively, you can connect to the workstation
+1. Connect to the workstation using ssh. Alternatively, you can connect to the workstation
    [interactively][launch-workstation] in the browser.
 
 ```bash
@@ -141,13 +142,13 @@ gcloud workstations ssh $LOCALLLM_WORKSTATION \
   --region=$REGION
 ```
 
-13. Start serving the default model from the repo.
+1. Start serving the default model from the repo.
 
 ```shell
 llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF $LOCALLLM_PORT
 ```
 
-14. Get the hostname of the workstation using:
+1. Get the hostname of the workstation using:
 
 ```bash
 gcloud workstations describe $LOCALLLM_WORKSTATION \
@@ -156,7 +157,7 @@ gcloud workstations describe $LOCALLLM_WORKSTATION \
   --region=$REGION
 ```
 
-15. Interact with the model by visiting the live OpenAPI documentation page: `https://$LOCALLLM_PORT-$LLM_HOSTNAME/docs`.
+1. Interact with the model by visiting the live OpenAPI documentation page: `https://$LOCALLLM_PORT-$LLM_HOSTNAME/docs`.
 
 ## llm commands
 
@@ -172,13 +173,13 @@ the model with 4 bit medium quantization, or you can specify a filename explicit
 llm list
 ```
 
-2. List running models. 
+1. List running models. 
 
 ```shell
 llm ps
 ```
 
-3. Start serving models.
+1. Start serving models.
 
    1. Start serving the default model from the repo. Download if not present.
 
@@ -186,13 +187,13 @@ llm ps
    llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF 8000
    ```
 
-   2. Start serving a specific model. Download if not present.
+   1. Start serving a specific model. Download if not present.
 
    ```shell
    llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf 8000
    ```
 
-4. Stop serving models.
+1. Stop serving models.
 
    1. Stop serving all models from the repo.
 
@@ -200,33 +201,33 @@ llm ps
    llm kill TheBloke/Llama-2-13B-Ensemble-v5-GGUF
    ```
 
-   2. Stop serving a specific model.
+   1. Stop serving a specific model.
 
    ```shell
    llm kill TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
    ```
 
-5. Download models.
+1. Download models.
 
    1. Download the default model from the repo. 
 
    ```shell
    llm pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF
    ```
-   2. Download a specific model from the repo.
+   1. Download a specific model from the repo.
 
    ```shell
    llm pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
    ```
 
-6. Remove models.
+1. Remove models.
 
    1. Remove all models downloaded from the repo.
 
    ```shell
    llm rm TheBloke/Llama-2-13B-Ensemble-v5-GGUF
    ```
-   2. Remove a specific model from the repo.
+   1. Remove a specific model from the repo.
 
    ```shell
    llm rm TheBloke/Llama-2-13B-Ensemble-v5-GGUF --filename llama-2-13b-ensemble-v5.Q4_K_S.gguf
