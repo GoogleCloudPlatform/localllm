@@ -14,8 +14,9 @@
 
 substitutions:
   _GCR_LOCATION: us-central1-docker.pkg.dev
-  _IMAGE_NAME: cw/localllm
-  _IMAGE_TAG: ${COMMIT_SHA}
+  _IMAGE_REGISTRY: cw
+  _IMAGE_NAME: localllm
+  _IMAGE_TAG: ${COMMIT_SHA:-latest}
 steps:
   - name: python:3.10
     script: |
@@ -31,13 +32,13 @@ steps:
         "build",
         ".",
         "-t",
-        "${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${_IMAGE_TAG}",
+        "${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_REGISTRY}/${_IMAGE_NAME}:${_IMAGE_TAG}",
         "-f",
         "Dockerfile",
       ]
     dir: "."
   # Run tests on the image itself
-  - name: "${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${_IMAGE_TAG}"
+  - name: "${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_REGISTRY}/${_IMAGE_NAME}:${_IMAGE_TAG}"
     script: |
       set -xe
       llm pull TheBloke/Llama-2-13B-Ensemble-v5-GGUF

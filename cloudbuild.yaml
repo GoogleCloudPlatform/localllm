@@ -14,7 +14,8 @@
 
 substitutions:
   _GCR_LOCATION: us-central1-docker.pkg.dev
-  _IMAGE_NAME: cw/localllm
+  _IMAGE_REGISTRY: cw
+  _IMAGE_NAME: localllm
   _IMAGE_TAG: ${COMMIT_SHA:-latest}
 steps:
   # Build and tag using commit sha
@@ -24,16 +25,16 @@ steps:
         "build",
         ".",
         "-t",
-        "${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${_IMAGE_TAG}",
+        "${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_REGISTRY}/${_IMAGE_NAME}:${_IMAGE_TAG}",
         "-f",
         "Dockerfile",
       ]
     dir: "."
   # Push the container image to Artifact Registry
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${_IMAGE_TAG}"]
+    args: ["push", "${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_REGISTRY}/${_IMAGE_NAME}:${_IMAGE_TAG}"]
 images:
-  - ${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_NAME}:${_IMAGE_TAG}
+  - ${_GCR_LOCATION}/$PROJECT_ID/${_IMAGE_REGISTRY}/${_IMAGE_NAME}:${_IMAGE_TAG}
 options:
   requestedVerifyOption: VERIFIED
   machineType: E2_HIGHCPU_32
