@@ -85,7 +85,7 @@ gcloud workstations configs create $LOCALLLM_WORKSTATION \
 --region=$REGION \
 --cluster=$LOCALLLM_CLUSTER \
 --machine-type=e2-standard-32 \
---container-custom-image=us-central1-docker.pkg.dev/$PROJECT_ID/$LOCALLLM_REGISTRY/$LOCALLLM_IMAGE_NAME:latest
+--container-custom-image=us-central1-docker.pkg.dev/${PROJECT_ID}/${LOCALLLM_REGISTRY}/${LOCALLLM_IMAGE_NAME}:latest
 ```
 
 1. Create a Cloud Workstation.
