@@ -18,13 +18,14 @@
 """
 import os
 
+from huggingface_hub import constants
 
-MODEL_DIR = "~/.cache/huggingface/hub/"
+
 DEFAULT_FILE_EXT = "gguf"
 
 
 def get_model_dir():
-    return os.path.expanduser(MODEL_DIR)
+    return constants.HF_HUB_CACHE
 
 
 def list_models():
