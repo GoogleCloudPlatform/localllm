@@ -64,7 +64,10 @@ def remove(repo_id, filename):
     if filename:
         path = modelfiles.path_from_model(repo_files, filename)
         if path:
+            blob_path = os.path.realpath(path)
             os.remove(path)
+        if os.path.isfile(blob_path):
+            os.remove(blob_path)
     if not filename:
         path = modelfiles.path_from_repo(repo_id)
         if path:
