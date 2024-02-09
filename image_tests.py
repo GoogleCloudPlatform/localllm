@@ -14,16 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
-
-
-def main(argv):
-    pass
-
-
-if __name__ == '__main__':
-    main(sys.argv)
-#!/usr/bin/env python3
 """Test(s) to run from inside the built image
 """
 import atexit
