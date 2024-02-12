@@ -18,24 +18,24 @@
 """
 from openai import OpenAI
 
-URLS = [
-    "http://localhost:8000/v1",
-]
+class RunLocalQuey:
+    def __init__(self):
+        self.URLS = ["http://localhost:8000/v1",]
 
-for url in URLS:
-    print(f"{url:*^50}")
-    client = OpenAI(
-        api_key="foo",
-                 base_url=url,
-    )
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                "role": "user",
-                "content": "Please write a haiku about cats",
-            },
-        ],
-        model="",
-    )
-    for choice in chat_completion.choices:
-        print(choice.message.content)
+    def get_response(self,prompt):
+        for url in self.URLS:
+            print(f"{url:*^50}")
+            client = OpenAI(api_key="foo",base_url=url,)
+            chat_completion = client.chat.completions.create(
+                messages=[
+                    { 
+                        "role": "user",
+                        "content": f"{prompt}",
+                    },
+                ],
+                model="",
+            )
+            
+            for choice in chat_completion.choices:
+                return choice.message.content
+

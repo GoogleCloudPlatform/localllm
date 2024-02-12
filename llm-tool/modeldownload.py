@@ -48,10 +48,7 @@ def download(repo_id, filename):
 
     Uses huggingface_hub library to create a cache.
     """
-    return huggingface_hub.hf_hub_download(
-        repo_id=repo_id,
-        filename=filename,
-    )
+    return huggingface_hub.hf_hub_download(repo_id=repo_id,filename=filename,)
 
 
 def remove(repo_id, filename):

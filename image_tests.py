@@ -14,8 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Test(s) to run from inside the built image
-"""
+"Test(s) to run from inside the built image"
 import atexit
 import logging
 import openai
@@ -31,7 +30,6 @@ HOST="0.0.0.0"
 PORT=8000
 LLAMA_REPO="TheBloke/Llama-2-13B-Ensemble-v5-GGUF"
 MISTRAL_REPO="TheBloke/openinstruct-mistral-7B-GGUF"
-
 RUN_COMMAND="llm run {} {} --verbose"
 KILL_COMMAND="llm kill {}"
 
