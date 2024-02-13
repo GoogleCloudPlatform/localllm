@@ -208,9 +208,15 @@ the model with 4 bit medium quantization, or you can specify a filename explicit
     llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF 8000
     ```
 
-1. Try out a query. The default query is for a haiku about cats.
-    ```shell
-    python3 querylocal.py
+1. To try this LLM, you can import this in your python file as shown in the spinnet:
+    ```python
+        from LocalQueryRunner.querylocal import RunLocalQuey
+
+        runner = RunLocalQuey()
+        while True:
+            user_input = input("<user> ")
+            response = runner.get_response(prompt=user_input)
+            print(f"\n<model> {response}")
     ```
 
 1. Interact with the Open API interface via the `/docs` extension. For the above, visit http://localhost:8000/docs.
