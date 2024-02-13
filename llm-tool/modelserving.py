@@ -37,7 +37,7 @@ def running_models():
     for p in psutil.process_iter([]):
         try:
             env = p.environ()
-        except psutil.AccessDenied:
+        except (psutil.AccessDenied, psutil.ZombieProcess):
             continue
         if env.get("RUN_BY_LOCALLLM", "0") == "1":
             procs.append((p.cmdline(), p.pid))
