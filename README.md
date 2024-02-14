@@ -10,6 +10,7 @@ In this guide:
 * [Running as a Cloud Workstation](#running-as-a-cloud-workstation)
 * [llm commands](#llm-commands)
 * [Running locally](#running-locally)
+* [Debugging](#debugging)
 * [LLM disclaimer](#llm-disclaimer)
 
 ## Running as a [Cloud Workstation][cw]
@@ -214,6 +215,35 @@ the model with 4 bit medium quantization, or you can specify a filename explicit
     ```
 
 1. Interact with the Open API interface via the `/docs` extension. For the above, visit http://localhost:8000/docs.
+
+## Debugging
+
+To assist with debugging, you can configure model startup to write logs to a log file by providing a yaml
+python logging configuration file (for example see [llm_log_config.yaml](../llm-tool/llm_log_config.yaml)):
+
+```
+llm run TheBloke/Llama-2-13B-Ensemble-v5-GGUF 8000 --log-config llm_log_config.yaml
+```
+
+If running from Cloud Workstations, logs from running models will be written to `/var/log/locallm.log`
+([llm_log_config.yaml](../llm-tool/llm_log_config.yaml) is provided by default via the environment variable
+`LOG_CONFIG` within the image). You can follow the logs with:
+
+```
+tail -f /var/log/localllm.log
+```
+
+To run locally using the bundled log config:
+
+```
+sudo touch /var/log/localllm.log
+sudo chown user:user /var/log/localllm.log # use your user and group
+export LOG_CONFIG=$(pip show llm | grep Location | awk '{print $2}')/llm_log_config.yaml
+
+llm run ...
+```
+
+If you are running multiple models, the logs from each will be written to the same file and interleaved.
 
 ## LLM Disclaimer
 

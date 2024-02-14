@@ -5,7 +5,7 @@ server. Uses:
 * Quantized models from 🤗
 * [llama-cpp-python's webserver](https://github.com/abetlen/llama-cpp-python#web-server)
 
-See [../README.md#llm-commands](../README.md#llm-commands) for more examples.
+See [../README.md](../README.md) for more examples.
 
 ## Install
 

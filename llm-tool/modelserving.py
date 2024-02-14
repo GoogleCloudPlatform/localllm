@@ -26,50 +26,43 @@ import subprocess
 import modelfiles
 
 
-COMMAND="python3 -m llama_cpp.server --model {} --host {} --port {}"
+COMMAND="uvicorn --factory llama_cpp.server.app:create_app --host {} --port {}"
+LOG_COMMAND="--log-config={}"
 
 
 def running_models():
     """
     Returns a list of models that appear to be currently running
     """
-    procs = []
+    models = []
     for p in psutil.process_iter([]):
         try:
             env = p.environ()
         except (psutil.AccessDenied, psutil.ZombieProcess):
             continue
         if env.get("RUN_BY_LOCALLLM", "0") == "1":
-            procs.append((p.cmdline(), p.pid))
-    return filter_running_models(procs)
-
-
-def filter_running_models(processes):
-    """
-    Returns the list of running models
-    """
-    models = []
-    for p in processes:
-        cmdline, pid = p[0], p[1]
-        if len(cmdline) == 0:
-            continue
-        for i, arg in enumerate(cmdline):
-            if arg == "--model":
-                if len(cmdline) < i+2:
-                    continue
-                repo_id, filename = modelfiles.model_from_path(cmdline[i+1])
-                models.append((repo_id, filename, pid))
-
+            model_path = env.get("MODEL", "")
+            repo_id, filename = modelfiles.model_from_path(model_path)
+            models.append((repo_id, filename, p.pid))
     return models
 
 
-def start(path, host, port, verbose):
+def start(path, host, port, log_config, verbose):
     """
-    Use lama_cpp.server to start serving the model at path.
+    Use uvicorn to run lama_cpp.server to start serving the model at path
+    running on port at host, using the logging configuration from
+    log_config.
     """
-    command = shlex.split(COMMAND.format(os.path.expanduser(path), host, port))
+    command = shlex.split(COMMAND.format(host, port))
+    if log_config != "":
+        command.append(LOG_COMMAND.format(log_config))
     env = os.environ.copy()
+
+    # indicate that we started this process so we can easily find it later
     env["RUN_BY_LOCALLLM"] = "1"
+    # provide the model to run as an env variable
+    env["MODEL"] = os.path.expanduser(path)
+
     p = subprocess.Popen(
         command,
         stdout=subprocess.PIPE,
