@@ -80,14 +80,16 @@ def rm(repo_id, filename):
 @click.option("--host", default="0.0.0.0")
 @click.argument("port")
 @click.option("--filename", default="", help="The specific file to run.")
+@click.option("--log-config", envvar="LOG_CONFIG", default="",
+              help="The logging configuration to pass to uvicorn.")
 @click.option('--verbose/--no-verbose', default=False)
-def run(repo_id, host, port, filename, verbose):
+def run(repo_id, host, port, filename, log_config, verbose):
     """Start running the specified model. Downloads if not already present."""
     filename = modeldownload.default_filename(repo_id) if not filename else filename
     path = modelfiles.path_from_model(repo_id, filename)
     if not path:
         path = _pull(repo_id, filename)
-    if not modelserving.start(path, host, port, verbose):
+    if not modelserving.start(path, host, port, log_config, verbose):
         click.echo("Error starting llm, run with --verbose for more")
         exit(1)
     else:
