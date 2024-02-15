@@ -60,8 +60,12 @@ def start(path, host, port, log_config, verbose):
 
     # indicate that we started this process so we can easily find it later
     env["RUN_BY_LOCALLLM"] = "1"
-    # provide the model to run as an env variable
+    # provide the model to run to llama-cpp-python
     env["MODEL"] = os.path.expanduser(path)
+    # stop llama-cpp-python from writing to stderr. we pipe stderr to this
+    # process, but then we close the pipe, so subsequent writes to stderr
+    # directly fail, causing requests to throw exceptions
+    env["VERBOSE"] = "False"
 
     p = subprocess.Popen(
         command,
