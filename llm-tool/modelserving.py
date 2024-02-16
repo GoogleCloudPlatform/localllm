@@ -32,7 +32,8 @@ LOG_COMMAND="--log-config={}"
 
 def running_models():
     """
-    Returns a list of models that appear to be currently running
+    Returns a list of currently running models. Processes are assumed to be
+    running models if they have `RUN_BY_LOCALLM` environment variable set.
     """
     models = []
     for p in psutil.process_iter([]):
@@ -54,7 +55,7 @@ def start(path, host, port, log_config, verbose):
     log_config.
     """
     command = shlex.split(COMMAND.format(host, port))
-    if log_config != "":
+    if log_config:
         command.append(LOG_COMMAND.format(log_config))
     env = os.environ.copy()
 
