@@ -36,4 +36,7 @@ setup(
             'llm = llm:cli',
         ],
     },
+    package_data = {
+        "": ["llm_log_config.yaml"],
+    }
 )
