@@ -67,6 +67,9 @@ To get started, you'll need to have a [GCP Project][gcp] and have the `gcloud` C
     ```
 
 1. Configure a Cloud Workstation cluster.
+
+   **Wait for this to complete before moving forward** which can take
+   [up to 20 minutes](https://cloud.google.com/workstations/docs/create-cluster#workstation-cluster).
     ```shell
     gcloud workstations clusters create $LOCALLLM_CLUSTER \
       --region=$REGION
