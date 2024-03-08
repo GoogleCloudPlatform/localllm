@@ -78,7 +78,7 @@ To get started, you'll need to have a [GCP Project][gcp] and have the `gcloud` C
 1. Create a Cloud Workstation configuration. We suggest using a machine type of e2-standard-32 which has 32 vCPU, 16
    core and 128 GB memory.
     ```shell
-    gcloud workstations configs create $LOCALLLM_WORKSTATION \
+    gcloud beta workstations configs create $LOCALLLM_WORKSTATION \
     --region=$REGION \
     --cluster=$LOCALLLM_CLUSTER \
     --machine-type=e2-standard-32 \
