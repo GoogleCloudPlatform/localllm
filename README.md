@@ -67,6 +67,9 @@ To get started, you'll need to have a [GCP Project][gcp] and have the `gcloud` C
     ```
 
 1. Configure a Cloud Workstation cluster.
+
+   **Wait for this to complete before moving forward** which can take
+   [up to 20 minutes](https://cloud.google.com/workstations/docs/create-cluster#workstation-cluster).
     ```shell
     gcloud workstations clusters create $LOCALLLM_CLUSTER \
       --region=$REGION
@@ -75,7 +78,7 @@ To get started, you'll need to have a [GCP Project][gcp] and have the `gcloud` C
 1. Create a Cloud Workstation configuration. We suggest using a machine type of e2-standard-32 which has 32 vCPU, 16
    core and 128 GB memory.
     ```shell
-    gcloud workstations configs create $LOCALLLM_WORKSTATION \
+    gcloud beta workstations configs create $LOCALLLM_WORKSTATION \
     --region=$REGION \
     --cluster=$LOCALLLM_CLUSTER \
     --machine-type=e2-standard-32 \
