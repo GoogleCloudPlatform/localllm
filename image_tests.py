@@ -32,8 +32,18 @@ PORT=8000
 LLAMA_REPO="TheBloke/Llama-2-13B-Ensemble-v5-GGUF"
 MISTRAL_REPO="TheBloke/openinstruct-mistral-7B-GGUF"
 
-RUN_COMMAND="llm run {} {} --verbose"
-KILL_COMMAND="llm kill {}"
+RUN_COMMAND="localllm run {} {} --verbose"
+KILL_COMMAND="localllm kill {}"
+SUPPORTED_COMMANDS=[
+     # This is the official command name
+    "localllm",
+    # This is supported b/c it's such an easy typo to make
+    "locallm",
+    # This was the original command and supported
+    # (in the cloud workstations image only)
+    # for backward compatibility
+    "llm"
+]
 
 
 def wait_for_llm(p):
@@ -90,6 +100,14 @@ class TestLLMs(unittest.TestCase):
             print(chat_completion.choices[0].message.content)
             return chat_completion.choices[0].message.content
 
+    def test_supported_commands(self):
+        failed_commands = []
+        for command in SUPPORTED_COMMANDS:
+            try:
+                subprocess.run(command)
+            except OSError:
+                failed_commands.append(command)
+        self.assertEqual([], failed_commands)
 
 if __name__ == "__main__":
     unittest.main()

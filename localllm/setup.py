@@ -17,10 +17,10 @@
 from setuptools import setup
 
 setup(
-    name='llm',
+    name='localllm',
     version='0.0.1',
     py_modules=[
-        'llm',
+        'localllm',
         'modeldownload',
         'modelfiles',
         'modelserving',
@@ -33,10 +33,12 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'llm = llm:cli',
+            'localllm = localllm:cli',
+            # support the version with 2 l's b/c it's such an easy typo
+            'locallm = localllm:cli',
         ],
     },
     package_data = {
-        "": ["llm_log_config.yaml"],
+        "": ["localllm_log_config.yaml"],
     }
 )

@@ -90,7 +90,7 @@ def run(repo_id, host, port, filename, log_config, verbose):
     if not path:
         path = _pull(repo_id, filename)
     if not modelserving.start(path, host, port, log_config, verbose):
-        click.echo("Error starting llm, run with --verbose for more")
+        click.echo("Error starting LLM, run with --verbose for more")
         exit(1)
     else:
         click.echo(f"Running {path} at {host}:{port}")
