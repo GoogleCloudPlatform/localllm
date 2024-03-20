@@ -1,4 +1,4 @@
-# llm tool
+# localllm tool
 
 A command line tool for interacting with models and offering them via a local API
 server. Uses:
@@ -16,8 +16,8 @@ pip install .
 ## Develop
 
 ```bash
-python3 -m venv .llm
-source .llm/bin/activate
+python3 -m venv .localllm
+source .localllm/bin/activate
 pip install --editable .
 ```
 
