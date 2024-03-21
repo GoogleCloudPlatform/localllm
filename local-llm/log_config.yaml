@@ -6,7 +6,7 @@ handlers:
   default:
     formatter: default
     class: logging.handlers.RotatingFileHandler
-    filename: /var/log/localllm.log
+    filename: /var/log/local-llm.log
   stdout:
     formatter: default
     class: logging.StreamHandler
