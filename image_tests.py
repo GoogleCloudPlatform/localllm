@@ -82,7 +82,7 @@ class TestLLMs(unittest.TestCase):
                         "role": "user",
                         "content": "Please write me a haiku about cats",
                 }],
-                model="",
+                model=model,
             )
 
             kill_llm(p, model)
